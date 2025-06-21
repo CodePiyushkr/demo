@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotel Rating Form</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+    h2 {
+      text-align: center;
+    }
+    label, input, textarea, select {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .row input, .row select {
+      flex: 1;
+    }
+    .rating-group {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 0;
+      border-bottom: 1px solid #ddd;
+    }
+    .rating-group span:first-child {
+      flex: 1 1 60%;
+    }
+    .stars {
+      display: flex;
+      gap: 4px;
+      flex: 1 1 40%;
+      justify-content: flex-end;
+    }
+    .stars input {
+      display: none;
+    }
+    .stars label {
+      font-size: 20px;
+      color: #ccc;
+      cursor: pointer;
+    }
+    .stars input:checked ~ label,
+    .stars label:hover,
+    .stars label:hover ~ label {
+      color: gold;
+    }
+    .overall {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>HOTEL RATING FORM</h2>
+  <form id="ratingForm">
+    <label>Name:<input type="text" /></label>
+    <label>Address:<input type="text" /></label>
+    <div class="row">
+      <input type="text" placeholder="City" />
+      <select id="countrySelect">
+        <option value="">Select Country</option>
+        <!-- Full list of countries included here -->
+        <!-- Keep existing country list as is -->
+      </select>
+    </div>
+    <div class="row">
+      <input type="number" placeholder="Telephone number" inputmode="numeric" pattern="[0-9]*" />
+      <input type="text" placeholder="Website" />
+    </div>
+
+    <div id="ratings"></div>
+
+    <div class="overall" id="overallDisplay">
+      Rated Criteria: 0 / 26<br />
+      Average Rating: 0%
+    </div>
+
+    <label>Comments:<textarea rows="4"></textarea></label>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    const categories = [
+      "Reservation",
+      "Location convenience",
+      "Parking & valet service",
+      "Bell desk",
+      "Lobby decoration & ambiance",
+      "Reception",
+      "Check-in",
+      "Wi-Fi quality",
+      "Security",
+      "Elevator performance",
+      "Room design",
+      "Room cleanliness",
+      "Room temperature control",
+      "In-Room amenities",
+      "Noise levels",
+      "Bathroom hygiene",
+      "Housekeeping",
+      "Laundry & dry-cleaning services",
+      "Room service",
+      "Restaurants",
+      "Swimming pool environment",
+      "Spa & wellness atmosphere",
+      "Gym & fitness center quality",
+      "Business center",
+      "Conference rooms",
+      "Check out"
+    ];
+
+    const ratingsContainer = document.getElementById('ratings');
+    const overallDisplay = document.getElementById('overallDisplay');
+
+    categories.forEach((cat, i) => {
+      const div = document.createElement('div');
+      div.className = 'rating-group';
+      div.innerHTML = `
+        <span>${i + 1}. ${cat}</span>
+        <span class="stars">
+          <input type="radio" id="${i}-5" name="rating-${i}" value="5" /><label for="${i}-5">★</label>
+          <input type="radio" id="${i}-4" name="rating-${i}" value="4" /><label for="${i}-4">★</label>
+          <input type="radio" id="${i}-3" name="rating-${i}" value="3" /><label for="${i}-3">★</label>
+          <input type="radio" id="${i}-2" name="rating-${i}" value="2" /><label for="${i}-2">★</label>
+          <input type="radio" id="${i}-1" name="rating-${i}" value="1" /><label for="${i}-1">★</label>
+        </span>
+      `;
+      ratingsContainer.appendChild(div);
+    });
+
+    document.getElementById('ratingForm').addEventListener('change', () => {
+      let total = 0;
+      let count = 0;
+      categories.forEach((_, i) => {
+        const radios = document.getElementsByName(`rating-${i}`);
+        for (const r of radios) {
+          if (r.checked) {
+            total += parseInt(r.value);
+            count++;
+          }
+        }
+      });
+      const avg = count ? ((total / (count * 5)) * 100).toFixed(2) : 0;
+      overallDisplay.innerHTML = `Rated Criteria: ${count} / 26<br />Average Rating: ${avg}%`;
+    });
+
+    document.getElementById('ratingForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      alert("Thanks for your feedback!");
+    });
+  </script>
+</body>
+</html>
