@@ -196,7 +196,7 @@
     <div id="ratings"></div>
 
     <div class="summary">
-      Rated Criteria: <span id="ratedCount">0</span> / 26 | Average: <span id="averageRating">0%</span> | Total Stars: <span id="totalStars">0</span>
+      Overall Score: <span id="overallScore">0/26</span> | Overall Rating: <span id="overallRating">0%</span> | Total Stars: <span id="totalStars">0</span>
     </div>
 
     <label>Comments</label>
@@ -258,17 +258,19 @@
     function updateOverall() {
       let total = 0;
       let count = 0;
+      let answered = 0;
 
       criteria.forEach((_, index) => {
-        const selected = document.querySelector(`input[name='rating-${index}']:checked`);
-        if (selected) {
-          total += parseInt(selected.value);
-          count++;
-        }
+        const options = document.querySelectorAll(`input[name='rating-${index}']`);
+        let selected = false;
+        options.forEach(opt => { if (opt.checked) { selected = true; total += parseInt(opt.value); count++; } });
+        if (selected) answered++;
       });
 
-      document.getElementById("ratedCount").textContent = count;
-      document.getElementById("averageRating").textContent = count > 0 ? `${((total / (count * 5)) * 100).toFixed(0)}%` : "0%";
+      const avgRating = count > 0 ? ((count / 26) * 100).toFixed(2) : "0.00";
+
+      document.getElementById("overallScore").textContent = `${answered}/26`;
+      document.getElementById("overallRating").textContent = `${avgRating}%`;
       document.getElementById("totalStars").textContent = total;
     }
 
@@ -312,7 +314,8 @@
       document.querySelectorAll("input, textarea").forEach(el => el.value = "");
       document.querySelectorAll("input[type=radio]:checked").forEach(el => el.checked = false);
       document.getElementById("ratedCount").textContent = "0";
-      document.getElementById("averageRating").textContent = "0%";
+      document.getElementById("overallScore").textContent = "0/26";
+      document.getElementById("overallRating").textContent = "0%";
       document.getElementById("totalStars").textContent = "0";
     }
   </script>
