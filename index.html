@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +6,13 @@
   <title>Hotel Rating Form</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f9f9f9; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
     header, footer {
       border-top: 2px solid #333;
       border-bottom: 2px solid #333;
@@ -16,33 +21,142 @@
       text-align: center;
       padding: 15px 0;
     }
-    .container { max-width: 800px; background-color: #fff; margin: 20px auto; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); border-radius: 10px; }
-    h2 { text-align: center; margin-bottom: 20px; color: #333; }
-    input, textarea, select, button { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; }
-    label { font-weight: bold; display: block; margin-bottom: 5px; color: #555; }
-    .rating-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; }
-    .rating-row span { flex: 1 1 60%; min-width: 200px; }
-    .stars { direction: rtl; display: flex; flex: 1 1 35%; min-width: 150px; justify-content: flex-end; }
-    .stars input { display: none; }
-    .stars label { font-size: 20px; color: lightgray; cursor: pointer; }
+
+    .container {
+      max-width: 800px;
+      background-color: #fff;
+      margin: 20px auto;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input, textarea, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+      color: #555;
+    }
+
+    .rating-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: nowrap;
+      gap: 10px;
+    }
+
+    .rating-row span {
+      flex-shrink: 1;
+      flex-grow: 1;
+      min-width: 0;
+    }
+
+    .stars {
+      direction: rtl;
+      display: flex;
+      flex-shrink: 0;
+      justify-content: flex-end;
+      min-width: 110px;
+    }
+
+    .stars input {
+      display: none;
+    }
+
+    .stars label {
+      font-size: 20px;
+      color: lightgray;
+      cursor: pointer;
+    }
+
     .stars input:checked ~ label,
     .stars label:hover,
-    .stars label:hover ~ label { color: gold; }
-    .form-row { display: flex; gap: 10px; flex-wrap: wrap; }
-    .form-row > div { flex: 1; min-width: 200px; }
-    .summary { font-weight: bold; margin-bottom: 10px; color: #444; }
-    button { background-color: #007BFF; color: white; border: none; cursor: pointer; }
-    button:hover { background-color: #0056b3; }
+    .stars label:hover ~ label {
+      color: gold;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .form-row > div {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .summary {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #444;
+    }
+
+    button {
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    @media (max-width: 600px) {
+      .rating-row {
+        flex-wrap: nowrap;
+        flex-direction: row;
+        align-items: flex-start;
+      }
+
+      .rating-row span {
+        flex: 1;
+        word-break: break-word;
+      }
+
+      .stars {
+        flex: none;
+      }
+    }
   </style>
 </head>
 <body>
-  <header><h1>Welcome to Our Hotel Feedback Portal</h1></header>
+  <header>
+    <h1>Welcome to Our Hotel Feedback Portal</h1>
+  </header>
+
   <div class="container">
     <h2>Hotel Rating Form</h2>
-    <label>Name</label><input id="name" type="text" />
-    <label>Address</label><input id="address" type="text" />
+
+    <label>Name</label>
+    <input id="name" type="text" />
+
+    <label>Address</label>
+    <input id="address" type="text" />
+
     <div class="form-row">
-      <div><label>City</label><input id="city" type="text" /></div>
+      <div>
+        <label>City</label>
+        <input id="city" type="text" />
+      </div>
       <div>
         <label>Country</label>
         <select id="country">
@@ -65,30 +179,61 @@
         </select>
       </div>
     </div>
+
     <div class="form-row">
-      
-      <div><label>Telephone Number</label><input id="telephone" type="tel" /></div>
-      <div><label>Website</label><input id="website" type="url" /></div>
+      <div>
+        <label>Telephone Number</label>
+        <input id="telephone" type="tel" pattern="[0-9]{10,15}" inputmode="numeric" oninput="this.value=this.value.replace(/[^\d]/g,'')" />
+      </div>
+      <div>
+        <label>Website</label>
+        <input id="website" type="url" />
+      </div>
     </div>
+
     <hr />
+
     <div id="ratings"></div>
-    <div class="summary">Rated Criteria: <span id="ratedCount">0</span> / 26 | Average: <span id="averageRating">0%</span></div>
-    <label>Comments</label><textarea id="comments" rows="4"></textarea>
-    <button onclick="downloadExcel()">Submit</button>
+
+    <div class="summary">
+      Rated Criteria: <span id="ratedCount">0</span> / 26 | Average: <span id="averageRating">0%</span>
+    </div>
+
+    <label>Comments</label>
+    <textarea id="comments" rows="4"></textarea>
+
+    <button onclick="submitForm()">Submit</button>
   </div>
-  <footer><p>&copy; 2025 Hotel Experience Feedback. All rights reserved.</p></footer>
+
+  <footer>
+    <p>&copy; 2025 Hotel Experience Feedback. All rights reserved.</p>
+  </footer>
 
   <script>
-    const criteria = ["Reservation", "Location convenience", "Parking & valet service", "Bell desk", "Lobby decoration & ambiance", "Reception", "Check-in", "Wi-Fi quality", "Security", "Elevator performance", "Room design", "Room cleanliness", "Room temperature control", "In-Room amenities", "Noise levels", "Bathroom hygiene", "Housekeeping", "Laundry & dry-cleaning services", "Room service", "Restaurants", "Swimming pool environment", "Spa & wellness atmosphere", "Gym & fitness center quality", "Business center", "Conference rooms", "Check out"];
+    const criteria = [
+      "Reservation", "Location convenience", "Parking & valet service",
+      "Bell desk", "Lobby decoration & ambiance", "Reception", "Check-in",
+      "Wi-Fi quality", "Security", "Elevator performance", "Room design",
+      "Room cleanliness", "Room temperature control", "In-Room amenities",
+      "Noise levels", "Bathroom hygiene", "Housekeeping",
+      "Laundry & dry-cleaning services", "Room service", "Restaurants",
+      "Swimming pool environment", "Spa & wellness atmosphere",
+      "Gym & fitness center quality", "Business center",
+      "Conference rooms", "Check out"
+    ];
 
     const ratingsDiv = document.getElementById("ratings");
+
     criteria.forEach((criterion, index) => {
       const row = document.createElement("div");
       row.className = "rating-row";
+
       const label = document.createElement("span");
       label.textContent = `${index + 1}. ${criterion}`;
+
       const starsDiv = document.createElement("div");
       starsDiv.className = "stars";
+
       for (let i = 5; i >= 1; i--) {
         const input = document.createElement("input");
         input.type = "radio";
@@ -96,29 +241,38 @@
         input.id = `rating-${index}-${i}`;
         input.value = i;
         input.addEventListener("change", updateOverall);
+
         const starLabel = document.createElement("label");
         starLabel.htmlFor = input.id;
         starLabel.textContent = "\u2605";
+
         starsDiv.appendChild(input);
         starsDiv.appendChild(starLabel);
       }
+
       row.appendChild(label);
       row.appendChild(starsDiv);
       ratingsDiv.appendChild(row);
     });
 
     function updateOverall() {
-      let total = 0, count = 0;
+      let total = 0;
+      let count = 0;
+
       criteria.forEach((_, index) => {
         const selected = document.querySelector(`input[name='rating-${index}']:checked`);
-        if (selected) { total += parseInt(selected.value); count++; }
+        if (selected) {
+          total += parseInt(selected.value);
+          count++;
+        }
       });
+
       document.getElementById("ratedCount").textContent = count;
       document.getElementById("averageRating").textContent = count > 0 ? `${((total / (count * 5)) * 100).toFixed(0)}%` : "0%";
     }
 
-    function downloadExcel() {
-      const data = [["Field", "Value"]];
+    function submitForm() {
+      let data = [["Field", "Value"]];
       data.push(["Name", document.getElementById("name").value]);
       data.push(["Address", document.getElementById("address").value]);
       data.push(["City", document.getElementById("city").value]);
@@ -127,15 +281,22 @@
       data.push(["Website", document.getElementById("website").value]);
       data.push(["Comments", document.getElementById("comments").value]);
 
-      let total = 0, count = 0;
+      let total = 0;
+      let count = 0;
+
       data.push(["", ""]);
       data.push(["Ratings", ""]);
+
       criteria.forEach((criterion, index) => {
         const selected = document.querySelector(`input[name='rating-${index}']:checked`);
         const value = selected ? selected.value : "Not rated";
         data.push([criterion, value]);
-        if (selected) { total += parseInt(value); count++; }
+        if (selected) {
+          total += parseInt(value);
+          count++;
+        }
       });
+
       const avg = count > 0 ? ((total / (count * 5)) * 100).toFixed(2) + "%" : "0%";
       data.push(["", ""]);
       data.push(["Total Rated", count]);
@@ -146,26 +307,15 @@
       XLSX.utils.book_append_sheet(wb, ws, "Feedback");
       XLSX.writeFile(wb, "Hotel_Feedback.xlsx");
 
-      alert("Thanks for your feedback!");
-      resetForm();
-    }
-
-    function resetForm() {
-      document.getElementById("name").value = "";
-      document.getElementById("address").value = "";
-      document.getElementById("city").value = "";
-      document.getElementById("country").value = "";
-      document.getElementById("telephone").value = "";
-      document.getElementById("website").value = "";
-      document.getElementById("comments").value = "";
-      criteria.forEach((_, index) => {
-        const inputs = document.getElementsByName(`rating-${index}`);
-        inputs.forEach(input => input.checked = false);
-      });
-      updateOverall();
+      alert("Thank you for your feedback!");
+      document.querySelectorAll("input, textarea").forEach(el => el.value = "");
+      document.querySelectorAll("input[type=radio]:checked").forEach(el => el.checked = false);
+      document.getElementById("ratedCount").textContent = "0";
+      document.getElementById("averageRating").textContent = "0%";
     }
   </script>
 </body>
 </html>
+
 
 
